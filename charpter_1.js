@@ -1,5 +1,9 @@
 function statement(invoice, plays) {
 
+    function playFor(aPerformance) {
+        return plays[aPerformance.playID];
+    }
+
     function amountFor(aPerformance, play) {
         let result = 0
         switch (play.type) {
@@ -20,7 +24,7 @@ function statement(invoice, plays) {
                 throw new Error(`unkown type: ${play.type}`);
         }
         return result;
-    }    
+    } 
 
     let totalAmount = 0;
     let volumeCredits = 0;
@@ -32,15 +36,14 @@ function statement(invoice, plays) {
         }).format;
 
     for (let perf of invoice.performances) {
-        const play = plays[perf.playID];
-        let thisAmount = amountFor(perf, play);
+        let thisAmount = amountFor(perf, playFor(perf));
 
         // ボリューム特典のポイントを加算
         volumeCredits += Math.max(perf.audience - 30, 0);
         // 喜劇の時は10人につき、さらにポイントを加算
-        if ("comedy" === play.type) volumeCredits += Math.floor(perf.audience / 5);
+        if ("comedy" === playFor(perf).type) volumeCredits += Math.floor(perf.audience / 5);
         // 注文の内訳を出力
-        result +=  `${play.name}: ${format(thisAmount/100)} (${perf.audience} seats)\n`;
+        result +=  `${playFor(perf).name}: ${format(thisAmount/100)} (${perf.audience} seats)\n`;
 
         totalAmount += thisAmount;
     }
