@@ -37,7 +37,15 @@ export default function createStatementData(invoice, plays){
         }
     }
 
-    class TragedyCalulator extends PerformanceCalculator {}
+    class TragedyCalulator extends PerformanceCalculator {
+        get amount() {
+            let result = 40000;
+            if (this.performance.audience > 30) {
+                result += 1000 * (this.performance.audience - 30);
+            }
+            return result;
+        }
+    }
     class ComedyCalulator extends PerformanceCalculator {}
 
     const statementData = {};
