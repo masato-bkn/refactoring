@@ -9,13 +9,14 @@ function statement(invoice, plays) {
         result.play = playFor(result);
         result.amount = amountFor(result);
         result.volumeCredits = volumeCreditsFor(result);
+        result.totalAmount = totalAmount(result)
+        result.totalVolumeCredits = totalVolumeCredits(result)
         return result;
     }
 
     function playFor(aPerformance) {
         return plays[aPerformance.playID];
     }
-
     function amountFor(aPerformance) {
         let result = 0
         switch (aPerformance.play.type) {
@@ -37,12 +38,25 @@ function statement(invoice, plays) {
         }
         return result;
     }
-
     function volumeCreditsFor(aPerformance) {
         let result = 0; 
         volumeCredits += Math.max(aPerformance.audience - 30, 0);
         if ("comedy" === aPerformance.play.type) volumeCredits += Math.floor(aPerformance.audience / 5);
         return result;
+    }
+    function totalAmount(data) {
+        let result = 0;
+        for (let perf of data.performances) {
+            result += perf.amout;
+        }
+        return result;
+    }
+    function totalVolumeCredits(data) {
+        let result = 0
+        for (let perf of data.performances) {
+            result += data.volumeCredits;
+        }
+        return result
     }
 }
 
@@ -52,8 +66,8 @@ function renderPlainText(data, plays) {
         result +=  `${perf.play.name}: ${usd(perf.amount)} (${perf.audience} seats)\n`;
     }
 
-    result += `Amount owed is ${usd(totalAmount())}\n`;
-    result += `You earned ${totalVolumeCredits()} credits\n`;
+    result += `Amount owed is ${usd(data.totalAmount)}\n`;
+    result += `You earned ${data.totalVolumeCredits} credits\n`;
     return result;
 
     function usd(aNumber) {
@@ -62,21 +76,5 @@ function renderPlainText(data, plays) {
                                 style: "currency", currency: "USD",
                                 minimumFractionDigits: 2
                             }).format(aNumber)/100;
-    }
-
-    function totalVolumeCredits() {
-        let result = 0
-        for (let perf of data.performances) {
-            result += data.volumeCredits;
-        }
-        return result
-    }
-
-    function totalAmount() {
-        let result = 0;
-        for (let perf of data.performances) {
-            result += perf.amout;
-        }
-        return result;
     }
 }
