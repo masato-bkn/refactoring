@@ -27,6 +27,11 @@ class PerformanceCalculator {
 }
 
 export default function createStatementData(invoice, plays){
+    // ファクトリ関数
+    function createPerformanceCalcular(aPerformance, aPlay) {
+        return new PerformanceCalculator(aPerformance, aPlay);
+    }
+
     const statementData = {};
     statementData.customer = invoice.customer
     statementData.performances = invoice.performances.map(enrichPerformance)
@@ -35,10 +40,10 @@ export default function createStatementData(invoice, plays){
     return statementData
 
     function enrichPerformance(aPerformance) {
-        const calculator = new PerformanceCalculator(aPerformance, playFor(aPerformance));
+        const calculator = createPerformanceCalcular(aPerformance, playFor(aPerformance));
         const result = Object.assign({}, aPerformance);
         result.play = calculator.play;
-        result.amount = amountFor(aPerformance);
+        result.amount = calculator.amount;
         result.volumeCredits = volumeCreditsFor(result);
         result.totalAmount = totalAmount(result)
         result.totalVolumeCredits = totalVolumeCredits(result)
@@ -47,11 +52,13 @@ export default function createStatementData(invoice, plays){
     function playFor(aPerformance) {
         return plays[aPerformance.playID];
     }
+    // 直接コンストラクタに渡すでは駄目なのか??
+    // -> ここがポリモフィズム化の発端になったロジックなので、ポリモフィズムできるように基底くらずに移設した
     // ★ テストが通るか確認するために一時的に残す
-    function amountFor(aPerformance) {
-        // value-objectパターンかな??
-        return new PerformanceCalculator(aPerformance, playFor(aPerformance)).amount;
-    }
+    // function amountFor(aPerformance) {
+    //     // value-objectパターンかな??
+    //     return new PerformanceCalculator(aPerformance, playFor(aPerformance)).amount;
+    // }
     function volumeCreditsFor(aPerformance) {
         let result = 0; 
         volumeCredits += Math.max(aPerformance.audience - 30, 0);
