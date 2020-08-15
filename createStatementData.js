@@ -3,6 +3,27 @@ class PerformanceCalculator {
         this.performance = aPerformance;
         this.play = aplay;
     }
+    get amount() {
+        let result = 0
+        switch (this.play.type) {
+            case "tragedy":
+                    result = 40000;
+                if (this.Performance.audience > 30) {
+                    result += 1000 * (this.Performance.audience - 30);
+                }
+                break;
+            case "comedy":
+                    result += 3000;
+                if (this.Performance.audience > 20) {
+                    result += 10000 + 50 * (this.Performance.audience - 20);
+                }
+                result += 300 * this.Performance.audience;
+                break;
+            default:
+                throw new Error(`unkown type: ${this.play.type}`);
+        }
+        return result;
+    }
 }
 
 export default function createStatementData(invoice, plays){
@@ -17,7 +38,7 @@ export default function createStatementData(invoice, plays){
         const calculator = new PerformanceCalculator(aPerformance, playFor(aPerformance));
         const result = Object.assign({}, aPerformance);
         result.play = calculator.play;
-        result.amount = amountFor(result);
+        result.amount = amountFor(aPerformance);
         result.volumeCredits = volumeCreditsFor(result);
         result.totalAmount = totalAmount(result)
         result.totalVolumeCredits = totalVolumeCredits(result)
@@ -26,26 +47,10 @@ export default function createStatementData(invoice, plays){
     function playFor(aPerformance) {
         return plays[aPerformance.playID];
     }
+    // ★ テストが通るか確認するために一時的に残す
     function amountFor(aPerformance) {
-        let result = 0
-        switch (aPerformance.play.type) {
-            case "tragedy":
-                    result = 40000;
-                if (aPerformance.audience > 30) {
-                    result += 1000 * (aPerformance.audience - 30);
-                }
-                break;
-            case "comedy":
-                    result += 3000;
-                if (aPerformance.audience > 20) {
-                    result += 10000 + 50 * (aPerformance.audience - 20);
-                }
-                result += 300 * aPerformance.audience;
-                break;
-            default:
-                throw new Error(`unkown type: ${aPerformance.play.type}`);
-        }
-        return result;
+        // value-objectパターンかな??
+        return new PerformanceCalculator(aPerformance, playFor(aPerformance)).amount;
     }
     function volumeCreditsFor(aPerformance) {
         let result = 0; 
