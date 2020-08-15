@@ -29,8 +29,16 @@ class PerformanceCalculator {
 export default function createStatementData(invoice, plays){
     // ファクトリ関数
     function createPerformanceCalcular(aPerformance, aPlay) {
-        return new PerformanceCalculator(aPerformance, aPlay);
+        switch(aPlay.type) {
+            case "tragedy" : return new TragedyCalulator(aPerformance, aPlay);
+            case "comedy"  : return new ComedyCalulator(aPerformance, aPlay);
+            default:
+                throw new Error(`未知の演劇の種類: ${aPlay.type}`)
+        }
     }
+
+    class TragedyCalulator extends PerformanceCalculator {}
+    class ComedyCalulator extends PerformanceCalculator {}
 
     const statementData = {};
     statementData.customer = invoice.customer
