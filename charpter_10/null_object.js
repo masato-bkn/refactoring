@@ -15,6 +15,7 @@ class Customer {
 
 class UnKnownCustomer {
     get isUnkwnon() {return true;}
+    get name() {return "occupant"}
 }
 
 function isUnkwnon(arg) {
@@ -24,11 +25,7 @@ function isUnkwnon(arg) {
 }
 
 // client1
-const aCustomer = site.customer;
-// ...
-let customerName;
-if (isUnkwnon(aCustomer)) customerName = "occupant";
-else customerName = aCustomer.name;
+const customerName = aCustomer.name; // custoemrが何者であるかclient側で意識しなくてもよくなった
 
 // client2
 const plan = (isUnkwnon(aCustomer)) ?
