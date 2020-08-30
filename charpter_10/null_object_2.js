@@ -1,7 +1,9 @@
 // オブジェクトリテラルの利用
 
 class Site {
-    get customer() {return this._customer;}
+    get customer() {
+        return (this._customer === "unknow") ? createUnKnownCustomer() : this._customer;
+    }
 }
 
 class Customer {
@@ -12,29 +14,28 @@ class Customer {
     get isUnknown() {return false;}
 }
 
-function createKnownCustomer() {
+function createUnKnownCustomer() {
     return {
         isUnknown: true,
+        name: "occupant",
+        billingPlan: registory.billingPlans.basic,
+        paymentHistory: {
+            weeksDelinquentInLastYear: 0,
+        },
     };
 }
 
 function isUnKnown(arg) {
-    return (arg === "unknown");
+    return arg.isUnKnown;
 }
 
 // client1
 const aCustomer = site.customer;
 // ...
-let customerName;
-if (isUnKnown(aCustomer)) customerName = "occupant";
-else customerName = aCustomer.name;
+let customerName = aCustomer.name;
 
 // client2
-const plan = isUnKnown(aCustomer) ?
-    registory.billingPlans.basic
-    : aCustomer.billingPlan;
+const plan = aCustomer.billingPlan
 
 // client3
-const weeksDelinquent = isUnKnown(aCustomer) ?
-    0
-    : aCustomer.paymentHistory.weeksDelinquentInLastYear;
+const weeksDelinquent = aCustomer.paymentHistory.weeksDelinquentInLastYear;
