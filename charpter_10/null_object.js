@@ -1,5 +1,6 @@
 class Site {
     get customer() {return this._customer;}
+
 }
 
 class Customer {
@@ -7,6 +8,8 @@ class Customer {
     get billingPlan() {}
     set billingPlan(arg) {}
     get paymentHistory() {}
+
+    get isUnkwnon() {return true;}
 }
 
 // client1
