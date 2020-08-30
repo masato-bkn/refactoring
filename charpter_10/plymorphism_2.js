@@ -49,3 +49,7 @@ class Rating {
 
     }
 }
+
+class ExperiencedChinaRating extends Rating {
+    
+}
