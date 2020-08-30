@@ -32,6 +32,16 @@ class Bird {
     }
 }
 
+function createBird(bird) {
+    switch (bird.type) {
+        case 'EuropeanSwallow':
+            return new EuropeanSwallow(bird);
+        case 'AfricanSwallow':
+            return new AfricanSwallow(bird);
+        // ...
+    }
+}
+
 class EuropeanSwallow extends Bird {
 
 }
