@@ -12,6 +12,13 @@ class Customer {
     get isUnkwnon() {return true;}
 }
 
+function isUnkwnon(arg) {
+    if (!((arg instanceof Customer) || (arg === "unknown")))
+        throw new Error('未知な値について要調査: <${arg}>');
+    return (arg === "unknown");
+}
+
+
 // client1
 const aCustomer = site.customer;
 // ...
