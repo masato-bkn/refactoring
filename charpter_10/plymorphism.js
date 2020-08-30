@@ -5,18 +5,29 @@ function speeds(birds) {
     return new Map(birds.map(b => [b.name, airSpeedVelocity(b)]))
 }
 function plumge(bird) {
-    switch (bird.type) {
-        case 'EuropeanSwallow':
-            return "average";
-        case 'AfterSwallow':
-            // ...
-    }
+    return Bird(bird).plumge;
 };
 function speed(bird) {
-    switch (bird.type) {
-        case 'EuropeanSwallow':
-            return 35;
-        case 'AfricanSwallow':
+    return Bird(bird).spairSpeedVelocityeed;
+}
+
+class Bird {
+    constructor(birdObject) {
+        Object.assign(this, birdObject);
+    }
+
+    get plumge() {
+        switch (this.type) {
+            case 'EuropeanSwallow':
+                return "average";
             // ...
+        }
+    }
+    get airSpeedVelocity(){
+        switch (this.type) {
+            case 'EuropeanSwallow':
+                return 35;
+            // ...
+        }
     }
 }
