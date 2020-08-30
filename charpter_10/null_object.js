@@ -16,6 +16,13 @@ class Customer {
 class UnKnownCustomer {
     get isUnkwnon() {return true;}
     get name() {return "occupant"}
+    get billingPlan() {return registory.billingPlan.basic;}
+    set billingPlan(arg) { /*何もしない */ }
+    get paymentHistory() {return new NullPaymentHistory();}
+}
+
+class NullPaymentHistory {
+    get weeksDelinquentInLastYear() {return 0;}
 }
 
 function isUnkwnon(arg) {
@@ -28,16 +35,10 @@ function isUnkwnon(arg) {
 const customerName = aCustomer.name; // custoemrが何者であるかclient側で意識しなくてもよくなった
 
 // client2
-const plan = (isUnkwnon(aCustomer)) ?
-    registory.billingPlans.basic
-    : aCustomer.billingPlan;
+const plan = aCustomer.billingPlan;
 
 // client3
-if (!isUnkwnon(aCustomer)) aCustomer.billingPlan = newPlan
+aCustomer.billingPlan = newPlan
 
 // client4
-const weeksDelinquent = (isUnkwnon(aCustomer)) ?
-    0
-    : aCustomer.paymentHistory.weeksDelinquentInLastYear;
-
-// 特殊ケース判定後の処理が広範囲に渡っている時は、特殊ケース用オブジェクトの出番
+const weeksDelinquent = aCustomer.paymentHistory.weeksDelinquentInLastYear;
