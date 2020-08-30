@@ -5,10 +5,10 @@ function speeds(birds) {
     return new Map(birds.map(b => [b.name, airSpeedVelocity(b)]))
 }
 function plumge(bird) {
-    return Bird(bird).plumge;
+    return createBird(bird).plumge;
 };
 function speed(bird) {
-    return Bird(bird).spairSpeedVelocityeed;
+    return createBird(bird).spairSpeedVelocityeed;
 }
 
 class Bird {
@@ -17,18 +17,10 @@ class Bird {
     }
 
     get plumge() {
-        switch (this.type) {
-            case 'EuropeanSwallow':
-                return "average";
-            // ...
-        }
+        return "unknown";
     }
     get airSpeedVelocity(){
-        switch (this.type) {
-            case 'EuropeanSwallow':
-                return 35;
-            // ...
-        }
+        return null;
     }
 }
 
@@ -43,11 +35,20 @@ function createBird(bird) {
 }
 
 class EuropeanSwallow extends Bird {
-
+    get plumage() {
+        return "average";
+    }
+    get airSpeedVelocity(){
+        return 35;
+    }
 }
-class AfricanSwallow extends Bird {
-    
+class AfricanSwallow extends Bird {    
+    get plumage() {
+        return (this.numberOfCononuts > 2) ? "tired" : "average";
+    }
 }
 class NorwegianBlueParrot extends Bird {
-    
+    get plumage() {
+        return (this.voltage > 100) ? "scorched" : "beautiful";
+    }   
 }
