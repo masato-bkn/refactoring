@@ -12,30 +12,33 @@ class Customer {
     get isUnkwnon() {return true;}
 }
 
+class UnKnownCustomer {
+    get isUnkwnon() {return true;}
+}
+
 function isUnkwnon(arg) {
     if (!((arg instanceof Customer) || (arg === "unknown")))
         throw new Error('未知な値について要調査: <${arg}>');
     return (arg === "unknown");
 }
 
-
 // client1
 const aCustomer = site.customer;
 // ...
 let customerName;
-if (aCustomer === "unKnown") customerName = "occupant";
+if (isUnkwnon(aCustomer)) customerName = "occupant";
 else customerName = aCustomer.name;
 
 // client2
-const plan = (aCustomer === "unknown") ?
+const plan = (isUnkwnon(aCustomer)) ?
     registory.billingPlans.basic
     : aCustomer.billingPlan;
 
 // client3
-if (aCustomer !== "unknown") aCustomer.billingPlan = newPlan
+if (!isUnkwnon(aCustomer)) aCustomer.billingPlan = newPlan
 
 // client4
-const weeksDelinquent = (aCustomer === "unknown") ?
+const weeksDelinquent = (isUnkwnon(aCustomer)) ?
     0
     : aCustomer.paymentHistory.weeksDelinquentInLastYear;
 
