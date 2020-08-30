@@ -1,6 +1,7 @@
 class Site {
-    get customer() {return this._customer;}
-
+    get customer() {
+        return (this._customer === "unknow") ? new UnKnownCustomer() : this._customer;
+    }
 }
 
 class Customer {
@@ -17,9 +18,9 @@ class UnKnownCustomer {
 }
 
 function isUnkwnon(arg) {
-    if (!((arg instanceof Customer) || (arg === "unknown")))
+    if (!((arg instanceof Customer) || (arg instanceof UnKnownCustomer)))
         throw new Error('未知な値について要調査: <${arg}>');
-    return (arg === "unknown");
+    return arg.isUnkwnon;
 }
 
 // client1
