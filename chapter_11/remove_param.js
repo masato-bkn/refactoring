@@ -11,4 +11,7 @@ class Order {
             // ...
         }
     }
+    getDiscountLevel(quantity) {
+        return this.quantity > 100 ? 2 : 1
+    }
 }
