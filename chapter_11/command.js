@@ -3,6 +3,10 @@ function score(candidate, medicalExam, scoringGuide) {
 }
 
 class Scorer {
+    constructor() {
+        this._candidate = candidate;
+    }
+
     excute(candidate, medicalExam, scoringGuide) {
         let result = 0;
         let healthLevel = 0;
