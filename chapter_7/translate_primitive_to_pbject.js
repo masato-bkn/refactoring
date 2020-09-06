@@ -7,6 +7,11 @@ class Order {
     set priority(aString) { this._priority = aString; }
 }
 
+class Priority {
+    constructor(value) {this._value = value;}
+    toString() {return this._value;}
+}
+
 // client
 hightPriorityCount = orders.filter(
     // これをオブジェクトで表現したい
