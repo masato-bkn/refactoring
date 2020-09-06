@@ -1,13 +1,15 @@
 function score(candidate, medicalExam, scoringGuide) {
-    return new ScriptProcessorNode().execute(candidate, medicalExam, scoringGuide);
+    return new Scorer(candidate, medicalExam, scoringGuide).execute();
 }
 
 class Scorer {
-    constructor() {
+    constructor(candidate, medicalExam, scoringGuide) {
         this._candidate = candidate;
+        this._medicalExam = medicalExam;
+        this._scoringGuide = scoringGuide;
     }
 
-    excute(candidate, medicalExam, scoringGuide) {
+    excute() {
         let result = 0;
         let healthLevel = 0;
         let highMedicalRiskFlag = false;
