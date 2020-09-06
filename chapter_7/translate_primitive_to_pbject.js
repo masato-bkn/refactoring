@@ -13,11 +13,14 @@ class Priority {
         if (value instanceof Priority) return value;
         this._value = value;
     }
+    get _index() { return Priority.legalValues().findIndex(s => s === this._value);}
+    static legalValues() {return ["low", 'normal', 'high', 'rush']}
+
     toString() {return this._value;}
+    higherThan(otger) {return this._index > other._index;}
 }
 
 // client
 hightPriorityCount = orders.filter(
-    // これをオブジェクトで表現したい
-    o => "high" === o.priority.toString() || "rush" === o.priority.toString()
-    )
+    o => o.priority.higherThan(new Priority("normal"))
+    );
