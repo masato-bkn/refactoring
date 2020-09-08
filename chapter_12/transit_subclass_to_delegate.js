@@ -17,3 +17,16 @@ class PremiumBooking extends Booking {
         return this._show.hasOwnProperty('talkback')
     }
 }
+
+function createBooking(show, data) {
+    return new Booking(show, data);
+}
+
+function createPremiumBooking(show, data) {
+    return new PremiumBooking(show, data, extras);
+}
+
+// Booking client
+aBooking = createBooking(show, data)
+// PremiumBooking client
+aBooking = createPremiumBooking(show, data)
