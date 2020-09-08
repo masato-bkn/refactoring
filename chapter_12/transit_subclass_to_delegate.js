@@ -6,6 +6,9 @@ class Booking {
     get hasTalkback() {
         return this._show.hasOwnProperty('talkback') && !this.isPeakDay;
     }
+    _bePremium(extras) {
+        this._premiumDelegate = new PremiumBookingDelegate(this, extras);
+    }
 }
 
 class PremiumBooking extends Booking {
@@ -30,8 +33,11 @@ function createBooking(show, data) {
 }
 
 function createPremiumBooking(show, data) {
-    return new PremiumBooking(show, data, extras);
+    const result = new PremiumBooking(show, data, extras);
+    result._bePremium(extras);
+    return result;
 }
+
 
 // Booking client
 aBooking = createBooking(show, data)
