@@ -4,7 +4,9 @@ class Booking {
         this._date = date;
     }
     get hasTalkback() {
-        return this._show.hasOwnProperty('talkback') && !this.isPeakDay;
+        return (this._premiumDelegate)
+        ? this._premiumDelegate.hasTalkback
+        : this._show.hasOwnProperty('talkback') && !this.isPeakDay;
     }
     _bePremium(extras) {
         this._premiumDelegate = new PremiumBookingDelegate(this, extras);
@@ -16,15 +18,15 @@ class PremiumBooking extends Booking {
         super(show, data);
         this.extras = extras;
     }
-    get hasTalkback() {
-        return this._show.hasOwnProperty('talkback')
-    }
 }
 
 class PremiumBookingDelegate {
     constructor(hostBooking, extras) {
         this._host = hostBooking;
         this._extras = extras;
+    }
+    get hasTalkback() {
+        return this.host._show.hasOwnProperty('talkback')
     }
 }
 
